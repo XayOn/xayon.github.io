@@ -76,84 +76,38 @@
 </h1>
   <article class="article">
     <div class="content">
-      <p>Hace tiempo se hizo popular el concepto de la bomba fork. Sin ser nada nuevo,
-se popularizaron principalmente por la belleza y sencillez de un par de
-ejemplos de bomba fork que aparecieron</p>
-<p>Bash:</p>
-<pre class="literal-block">
-:(){ :|:&amp; };:
-</pre>
-<p>Windows:</p>
-<pre class="literal-block">
-%0|%0
-</pre>
-<div class="section" id="que-hace-una-bomba-fork">
-<h2>¿Que hace una bomba fork?</h2>
-<p>Simplificando, una bomba fork es un proceso con capacidad de autoreplicarse que
-lo hace hasta que deja al sistema sin recursos. Esto es, se lanza a si mismo, y
-las “copias” de si mismo que ha lanzado lanzan a su vez copias de si mismos.</p>
-<p>Bomba fork en Harry Potter ;-)</p>
-<p>Como podemos imaginar, los recursos de nuestro equipo tienen limites, y nos
-encontraremos con que en tan solo unos segundos no podremos ejecutar nada
-nuevo, estaremos “ahogados”.</p>
-<p>Habitualmente las bombas fork son ilustrativas, no son muy utilizadas en el
-mundo real</p>
-<p>En raras ocasiones se han podido ver siendo usadas de verdad, fuera de un
-entorno de pruebas, como ataque de denegación de servicio. Por ejemplo podría
-darse el caso de una vulnerabilidad de ejecución remota de código de algún
-servicio web para parar el funcionamiento correcto de este, mediante una bomba
-fork.</p>
-<p>¿Como paramos una bomba fork?  Ante nada, prevención. Es muy poco probable que
-vayamos a encontrarnos con una situación en la que nos hayan podido lanzar la
-bomba fork con un usuario privilegiado o una situación en la que no tengamos
-acceso a un usuario privilegiado de la máquina. En unix, podemos limitar el
-número de procesos máximos que puede ejecutar el usuario, de forma que sea
-inferior al máximo que puede ejecutar el sistema. De este modo, podremos entrar
-con otro usuario y matar la bomba fork.</p>
-<p>Este es el caso más habitual, y en GNU/Linux podemos hacerlo con:</p>
-<p>ulimit -u 16384 También es posible añadir el limite a
-/etc/security/limits.conf, haciendolo persistente. El fichero
-/etc/security/limits.conf tiene más información al respecto.</p>
-<p>En el otro caso, en caso de que la bomba se haya ejecutado como usuario
-privilegiado, es necesario disponer de acceso a una terminal, y tener mucha
-suerte y habilidad. Si no disponemos de un proceso ya arrancado al que
-engancharse y desde el que se pueda ejecutar, por lo menos, listado de
-ficheros, apertura de ficheros y envío de señales, es posible que la única
-solución sea un reinicio físico.</p>
-<p>It crowd</p>
-<p>Sin embargo disponiendo de acceso a una terminal en bash con un usuario
-privilegiado, podemos intentar parar todos los procesos de la bomba fork con
-SIGSTOP, eso sí, tenemos que tener en cuenta que no vamos a poder arrancar
-nuevos procesos, por lo que no disponemos de los comandos más básicos, como ls,
-pkill, killall…</p>
-<p>Para solucionar esto, he escrito un par de sencillas funciónes en bash que
-implementan listado de procesos y envío de señales a procesos que coincidan con
-una expresión regular:</p>
-<p>psf(){ for file in /proc/<em>/cmdline; do read cmdline &lt; $file; echo $cmdline;
-done } pkill(){ret=1; for file in /proc/</em>/cmdline; do read cmdline &lt; $file; [[
-$cmdline =~ .*$2.* ]] &amp;&amp; { IFS='/' read -ra pid &lt;&lt;&lt; "$file"; ret=0; [[ $1 != $$
-]] &amp;&amp; kill $1 ${pid[2]};}; done; return $ret; }; Con psf podemos analizar el
-listado de procesos, ver que linea de comandos ha iniciado el proceso de la
-bomba fork y matar todos. Además, evitamos matar la sesión de bash en la que
-estamos en este momento.</p>
-<p>Con esto, una vez hemos visto el culpable, simplemente se les lanzan las
-señales SIGSTOP y SIGKILL.</p>
-<p>Las señales en UNIX (y otros sistemas operativos POSIX) son una forma de
-comunicación entre procesos. Una forma de comunicar eventos a los mismos. Estas
-dos señales, SIGSTOP y SIGKILL, se encargan respectivamente de congelar un
-proceso y de terminarlo a la fuerza. Además el proceso no puede ignorarlas, al
-recibirlas está obligado a pararse y morir.</p>
-<p>Parar una bomba fork en bash requeriría hacerlo contra todos los procesos de
-bash:</p>
-<p>pkill -SIGSTOP bash pkill -SIGKILL bash Esto paralizaría la ejecución de todos
-los procesos actuales de la bomba fork, sin matarlos, de forma que ninguno de
-ellos se replicaría. Una vez parados, los terminaría, dejando nuestro sistema
-libre ella.</p>
-<p>Esta es una forma de escapar de una bomba fork en este escenario tan
-particular. No hay que olvidar la sección de prevención de este artículo, y
-tener unas políticas de seguridad básicas, si alguien ha lanzado una bomba fork
-como root en un sistema, el problema grave está en otra parte.</p>
-</div>
+      <p>Estamos viviendo estos días una de las épocas más duras para muchas empresas
+que trabajan con equipos con Windows, la incidencia del ransomware WCRY.</p>
+<p>Como muchos sabréis, el ransomware WCRY, aprovechando una vulnerabilidad en el
+protocolo SMB, se ha expandido como la espuma, llegando a infectar más de
+200.000 equipos en un largo fin de semana. Largo al menos para muchos
+administradores de sistemas, claro.</p>
+<p>Los que hemos vivido esto desde fuera hemos podido aprovechar para reflexionar.
+En estas situaciones, el primer culpable es, sin lugar a dudas, el que ha
+lanzado la campaña del ransomware, pero no podemos evitar recalcar que con una
+politica de actualizaciones más agresiva (o no utilizando Microsoft Windows en
+sistemas críticos) el impacto habría sido mucho menor.</p>
+<p>En este caso concreto la situación ha sido un poco extraña. Parece que el panel
+de control al que se conectaba antes de mutar (durante los dos primeros días)
+no ha estado operativo en ningún momento. Además la campaña original incluye un
+“kill switch“, un dominio que, si el ransomware lo encuentra activo, no actúa.</p>
+<p>Todo esto nos da lugar a la posibilidad de que este ransomware haya sido,
+simplemente, una prueba de concepto que se ha ido de las manos.</p>
+<p>Pese al daño causado, el hecho de que el malware haya tenido tanta publicidad y
+relevancia ha podido servir de llamada de atención. ¡Por primera vez hemos
+podido oír hablar del ransomware en las noticias y en los periódicos de todo el
+mundo!</p>
+<p>Parece que está llamada de atención ha conseguido algo que probablemente los
+autores del ransomware no esperaban: efecto rebote.</p>
+<img alt="Wannacry dump" class="img-fluid" src="/images/wcry.png"/>
+<p>Aquí podemos ver un hexdump de la muestra de WCRY, mostrando las extensiones
+afectadas.  hexdump de la muestra de WCRY mostrando las extensiones afectadas</p>
+<p>Podéis encontrar más información sobre el ataque en la web del ccn-cert.
+Además, la mayoría de antivirus ya lo detectan, y es posible evitar la
+infección vía SMB teniendo la actualización ms17-010.</p>
+<p>Por otro lado, recordemos que han utilizado el exploit robado a la NSA por
+ShadowBrokers, que se hizo publico en Marzo de 2017, hay hasta un port a
+metasploit que podemos encontrar aquí</p>
 
     </div>
   </article>
