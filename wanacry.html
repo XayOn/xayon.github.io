@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>  El lado bueno del “ataque masivo” con WCRY | David Francos
+</title>
+  <link rel="canonical" href="./wanacry.html">
+  <link href="https://fonts.googleapis.com/css?family=Advent+Pro" rel="stylesheet">
+
+
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#333333">
+
+  <link href="https://fonts.googleapis.com/css?family=Advent+Pro|Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="./theme/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./theme/css/font-awesome.min.css">
+  <link rel="stylesheet" href="./theme/css/pygments/vim.min.css">
+  <link rel="stylesheet" href="./theme/css/theme.css">
+
+
+  
+  <meta name="description" content="Hace tiempo se hizo popular el concepto de la bomba fork. Sin ser nada nuevo, se popularizaron principalmente por la belleza y sencillez de un par de ejemplos de bomba fork que aparecieron">
+  <script>
+    (function(i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o);
+      a.async = 1;
+      a.src = g;
+      m = s.getElementsByTagName(o)[0];
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-53006258-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+
+</head>
+
+<body>
+  <header class="header">
+<div class="container" style="max-width:100%; margin-top:30px">
+<div class="row align-items-center justify-content-center">
+  <div class="col-sm-4 text-center">
+    <a href="./" class=brand>
+      <img class="img img-responsive text-center" src=./theme/images/logo.png alt="David Francos">
+    </a>
+  </div>
+</div>
+<div class="row align-items-center justify-content-center">
+  <div class="col-sm-12 text-center">
+      <p class="text-muted">Tecnología y patitos de goma</p>
+    <ul id="menu-menu-1" class="list-inline menu">
+      <li class="list-inline-item"><a href="/">Inicio</a></li>
+        <li class="list-inline-item"><a href="/category/python.html">Python</a></li>
+        <li class="list-inline-item"><a href="/category/tecnologia.html">Tecnologia</a></li>
+      <li class="list-inline-item"><a href="/pages/acerca-de.html">Acerca de David Francos</a></li>
+      <li class="list-inline-item"><a href="/pages/contacto.html">Contacto</a></li>
+    </ul>
+   </div>
+</div>
+</div>  </header>
+
+  <div class="main">
+    <div class="container">
+      <h1>  El lado bueno del “ataque masivo” con WCRY
+</h1>
+  <article class="article">
+    <div class="content">
+      <p>Hace tiempo se hizo popular el concepto de la bomba fork. Sin ser nada nuevo,
+se popularizaron principalmente por la belleza y sencillez de un par de
+ejemplos de bomba fork que aparecieron</p>
+<p>Bash:</p>
+<pre class="literal-block">
+:(){ :|:&amp; };:
+</pre>
+<p>Windows:</p>
+<pre class="literal-block">
+%0|%0
+</pre>
+<div class="section" id="que-hace-una-bomba-fork">
+<h2>¿Que hace una bomba fork?</h2>
+<p>Simplificando, una bomba fork es un proceso con capacidad de autoreplicarse que
+lo hace hasta que deja al sistema sin recursos. Esto es, se lanza a si mismo, y
+las “copias” de si mismo que ha lanzado lanzan a su vez copias de si mismos.</p>
+<p>Bomba fork en Harry Potter ;-)</p>
+<p>Como podemos imaginar, los recursos de nuestro equipo tienen limites, y nos
+encontraremos con que en tan solo unos segundos no podremos ejecutar nada
+nuevo, estaremos “ahogados”.</p>
+<p>Habitualmente las bombas fork son ilustrativas, no son muy utilizadas en el
+mundo real</p>
+<p>En raras ocasiones se han podido ver siendo usadas de verdad, fuera de un
+entorno de pruebas, como ataque de denegación de servicio. Por ejemplo podría
+darse el caso de una vulnerabilidad de ejecución remota de código de algún
+servicio web para parar el funcionamiento correcto de este, mediante una bomba
+fork.</p>
+<p>¿Como paramos una bomba fork?  Ante nada, prevención. Es muy poco probable que
+vayamos a encontrarnos con una situación en la que nos hayan podido lanzar la
+bomba fork con un usuario privilegiado o una situación en la que no tengamos
+acceso a un usuario privilegiado de la máquina. En unix, podemos limitar el
+número de procesos máximos que puede ejecutar el usuario, de forma que sea
+inferior al máximo que puede ejecutar el sistema. De este modo, podremos entrar
+con otro usuario y matar la bomba fork.</p>
+<p>Este es el caso más habitual, y en GNU/Linux podemos hacerlo con:</p>
+<p>ulimit -u 16384 También es posible añadir el limite a
+/etc/security/limits.conf, haciendolo persistente. El fichero
+/etc/security/limits.conf tiene más información al respecto.</p>
+<p>En el otro caso, en caso de que la bomba se haya ejecutado como usuario
+privilegiado, es necesario disponer de acceso a una terminal, y tener mucha
+suerte y habilidad. Si no disponemos de un proceso ya arrancado al que
+engancharse y desde el que se pueda ejecutar, por lo menos, listado de
+ficheros, apertura de ficheros y envío de señales, es posible que la única
+solución sea un reinicio físico.</p>
+<p>It crowd</p>
+<p>Sin embargo disponiendo de acceso a una terminal en bash con un usuario
+privilegiado, podemos intentar parar todos los procesos de la bomba fork con
+SIGSTOP, eso sí, tenemos que tener en cuenta que no vamos a poder arrancar
+nuevos procesos, por lo que no disponemos de los comandos más básicos, como ls,
+pkill, killall…</p>
+<p>Para solucionar esto, he escrito un par de sencillas funciónes en bash que
+implementan listado de procesos y envío de señales a procesos que coincidan con
+una expresión regular:</p>
+<p>psf(){ for file in /proc/<em>/cmdline; do read cmdline &lt; $file; echo $cmdline;
+done } pkill(){ret=1; for file in /proc/</em>/cmdline; do read cmdline &lt; $file; [[
+$cmdline =~ .*$2.* ]] &amp;&amp; { IFS='/' read -ra pid &lt;&lt;&lt; "$file"; ret=0; [[ $1 != $$
+]] &amp;&amp; kill $1 ${pid[2]};}; done; return $ret; }; Con psf podemos analizar el
+listado de procesos, ver que linea de comandos ha iniciado el proceso de la
+bomba fork y matar todos. Además, evitamos matar la sesión de bash en la que
+estamos en este momento.</p>
+<p>Con esto, una vez hemos visto el culpable, simplemente se les lanzan las
+señales SIGSTOP y SIGKILL.</p>
+<p>Las señales en UNIX (y otros sistemas operativos POSIX) son una forma de
+comunicación entre procesos. Una forma de comunicar eventos a los mismos. Estas
+dos señales, SIGSTOP y SIGKILL, se encargan respectivamente de congelar un
+proceso y de terminarlo a la fuerza. Además el proceso no puede ignorarlas, al
+recibirlas está obligado a pararse y morir.</p>
+<p>Parar una bomba fork en bash requeriría hacerlo contra todos los procesos de
+bash:</p>
+<p>pkill -SIGSTOP bash pkill -SIGKILL bash Esto paralizaría la ejecución de todos
+los procesos actuales de la bomba fork, sin matarlos, de forma que ninguno de
+ellos se replicaría. Una vez parados, los terminaría, dejando nuestro sistema
+libre ella.</p>
+<p>Esta es una forma de escapar de una bomba fork en este escenario tan
+particular. No hay que olvidar la sección de prevención de este artículo, y
+tener unas políticas de seguridad básicas, si alguien ha lanzado una bomba fork
+como root en un sistema, el problema grave está en otra parte.</p>
+</div>
+
+    </div>
+  </article>
+  <hr>
+  <div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function() {
+      this.page.url = './wanacry.html';
+      this.page.identifier = 'wanacry';
+    };
+    (function() {
+      var d = document;
+      var s = d.createElement('script');
+      s.src = '//davidfrancos.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript class="text-muted">
+    Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+  </noscript>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+<footer class="content-info">
+  <div class=container style="text-align:center; margin-bottom:20px; padding-top:10px">
+     <a style="margin-right:40px" target=_blank href="http://linkedin.com/in/davidfrancos/"><i style="font-size:4em;" title="linkedin" class="fa fa-linkedin" aria-hidden="true"></i></a>
+     <a style="margin-right:40px" target=_blank href="http://github.com/xayon/"><i style="font-size:4em;" class="fa fa-github" title="github" aria-hidden="true"></i></a>
+     <a  target=_blank title="gratipay" href="https://gratipay.com/~XayOn/"><i style="font-size:4em;" class="fa fa-gratipay" aria-hidden="true"></i></a>
+     <!-- Begin Mailchimp Signup Form -->
+     <br/>
+     <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
+     <style type="text/css">
+     	#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;}
+     </style>
+     <div id="mc_embed_signup">
+     <form action="https://davidfrancos.us20.list-manage.com/subscribe/post?u=2b9d1c0b5a4774f3f5af56a15&amp;id=c6f9c1b981" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+         <div id="mc_embed_signup_scroll">
+
+     	<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+         <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+         <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_2b9d1c0b5a4774f3f5af56a15_c6f9c1b981" tabindex="-1" value=""></div>
+         <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+         </div>
+     </form>
+     </div>
+  </div>
+</footer>    </div>
+  </footer>
+</body>
+
+</html>
