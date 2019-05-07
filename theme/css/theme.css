@@ -196,3 +196,13 @@ img.float-left {
 footer a{
         color:#7c396c;
 }
+
+
+h2, h3, h4 {
+   margin-top:30px!important;
+}
+
+.center-image{
+        margin-left: auto;
+        margin-right: auto;
+}
