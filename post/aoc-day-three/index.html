@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es" data-theme=""><head>
+    <title> David Francos | Advent of code - Día 3 </title>
+
+    
+    <meta charset="utf-8"><meta name="generator" content="Hugo 0.79.0" /><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="description" content="Tecnología y patitos de goma">
+    
+    <link rel="stylesheet"
+          href="https://davidfrancos.net/css/style.min.d553cee7748f9da24efc5e8b914c4afd8d33e80145c3a856fa5554ef28db7aff.css"
+          integrity="sha256-1VPO53SPnaJO/F6LkUxK/Y0z6AFFw6hW&#43;lVU7yjbev8="
+          crossorigin="anonymous"
+          type="text/css"><link rel="stylesheet" 
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" 
+    integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" 
+    crossorigin="anonymous" />
+
+    
+    <link rel="shortcut icon" href="https://davidfrancos.net/favicons/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://davidfrancos.net/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://davidfrancos.net/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://davidfrancos.net/favicons/favicon-16x16.png">
+
+    <link rel="canonical" href="https://davidfrancos.net/post/aoc-day-three/">
+
+    
+    
+    
+    
+    <script type="text/javascript"
+            src="https://davidfrancos.net/js/anatole-header.min.e782db136ec18d105a4552702eac49f4620d6867da3fbf808bd53e806c96be6e.js"
+            integrity="sha256-54LbE27BjRBaRVJwLqxJ9GINaGfaP7&#43;Ai9U&#43;gGyWvm4="
+            crossorigin="anonymous"></script>
+    <meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://davidfrancos.net/images/site-feature-image.png"/>
+
+<meta name="twitter:title" content="Advent of code - Día 3"/>
+<meta name="twitter:description" content="Advent Of Code - Día 3"/>
+
+</head>
+<body><div class="sidebar animated fadeInDown ">
+    <div class="logo-title">
+        <div class="title">
+            <img src="https://davidfrancos.net/images/profile.jpg" alt="profile picture">
+	    <h3 title=""><a href="/"><img style="border-radius:0; width:50%" src="/images/logo.png" /></a></h3>
+            <div class="description">
+                <p>Tecnología y patitos de goma</p>
+            </div>
+        </div>
+    </div>
+    <ul class="social-links">
+        
+            <li>
+                <a href="https://www.linkedin.com/in/davidfrancos/" rel="me" aria-label="Linkedin">
+                    <i class="fab fa-linkedin fa-2x" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https://github.com/XayOn" rel="me" aria-label="GitHub">
+                    <i class="fab fa-github fa-2x" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            <li>
+                <a href="https://www.instagram.com/david.francos" rel="me" aria-label="instagram">
+                    <i class="fab fa-instagram fa-2x" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            <li>
+                <a href="mailto:me@davidfrancos.net" rel="me" aria-label="e-mail">
+                    <i class="fas fa-envelope fa-2x" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+    </ul>
+    <div class="footer">
+        <div class="by_farbox">&copy; David Francos 2020 </div>
+    </div>
+</div>
+<div class="main">
+    <div class="page-top  animated fadeInDown ">
+    <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+    </a>
+    <ul class="nav" id="navMenu">
+        
+        
+            
+            <li><a 
+                   href="/"
+                        
+                   title="">Inicio</a></li>
+        
+            
+            <li><a 
+                   href="/post/"
+                        
+                   title="">Posts</a></li>
+        
+            
+            <li><a 
+                   href="/about/"
+                        
+                   title="">Acerca de</a></li>
+        
+        
+        <li class="theme-switch-item">
+            <a class="theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+    <div class="autopagerize_page_element">
+        <div class="content">
+    <div class="post  animated fadeInDown ">
+        <div class="post-content">
+
+            <div class="post-title">
+                <h3>Advent of code - Día 3</h3>
+                
+                    <div class="info">
+                        <em class="fas fa-calendar-day"></em>
+                        <span class="date">Thu, Dec 3, 2020</span>
+                        <em class="fas fa-stopwatch"></em>
+                        <span class="reading-time">5 minutos de lectura</span>
+                    </div>
+                
+            </div>
+
+            <p>Recordemos el <a href="https://adventofcode.com/">Advent Of Code</a>, un calendario de
+adviento para <em>&ldquo;los nuestros&rdquo;</em>, el advent of code se define a si mismo como:</p>
+<blockquote>
+<p>Advent of Code is an Advent calendar of small programming puzzles for a
+variety of skill sets and skill levels that can be solved in any programming
+language you like.</p>
+</blockquote>
+<p>Continuo registrando todas las soluciones en un <a href="https://github.com/XayOn/aoc2020">repositorio en mi
+github</a>.</p>
+<p>Esta vez, vamos al tercer problema, disponible en la <a href="https://adventofcode.com/2020/day/3">web del advent of
+code</a></p>
+<blockquote>
+<p>With the toboggan login problems resolved, you set off
+toward the airport. While travel by toboggan might be
+easy, it&rsquo;s certainly not safe: there&rsquo;s very minimal
+steering and the area is covered in trees. You&rsquo;ll need to
+see which angles will take you near the fewest trees.</p>
+</blockquote>
+<blockquote>
+<p>Due to the local geology, trees in this area only grow on
+exact integer coordinates in a grid. You make a map (your
+puzzle input) of the open squares (.) and trees (#) you
+can see. For example:</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">..</span><span style="color:#75715e">##.......</span>
+<span style="color:#75715e">#...#...#..</span>
+<span style="color:#f92672">.</span><span style="color:#75715e">#....#..#.</span>
+<span style="color:#f92672">..</span><span style="color:#75715e">#.#...#.#</span>
+<span style="color:#f92672">.</span><span style="color:#75715e">#...##..#.</span>
+<span style="color:#f92672">..</span><span style="color:#75715e">#.##.....</span>
+<span style="color:#f92672">.</span><span style="color:#75715e">#.#.#....#</span>
+<span style="color:#f92672">.</span><span style="color:#75715e">#........#</span>
+<span style="color:#75715e">#.##...#...</span>
+<span style="color:#75715e">#...##....#</span>
+<span style="color:#f92672">.</span><span style="color:#75715e">#..#...#.#</span></code></pre></div>
+<p>Bueno, el primer problema que nos encontramos de tipo grid.</p>
+<blockquote>
+<p>These aren&rsquo;t the only trees, though; due to something you read about once
+involving arboreal genetics and biome stability, the same pattern repeats to
+the right many times:</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">..</span><span style="color:#75715e">##.........##.........##.........##.........##.........##.......  ---&gt;</span>
+<span style="color:#75715e">#...#...#..#...#...#..#...#...#..#...#...#..#...#...#..#...#...#..</span>
+<span style="color:#f92672">.</span><span style="color:#75715e">#....#..#..#....#..#..#....#..#..#....#..#..#....#..#..#....#..#.</span>
+<span style="color:#f92672">..</span><span style="color:#75715e">#.#...#.#..#.#...#.#..#.#...#.#..#.#...#.#..#.#...#.#..#.#...#.#</span>
+<span style="color:#f92672">.</span><span style="color:#75715e">#...##..#..#...##..#..#...##..#..#...##..#..#...##..#..#...##..#.</span>
+<span style="color:#f92672">..</span><span style="color:#75715e">#.##.......#.##.......#.##.......#.##.......#.##.......#.##.....  ---&gt;</span>
+<span style="color:#f92672">.</span><span style="color:#75715e">#.#.#....#.#.#.#....#.#.#.#....#.#.#.#....#.#.#.#....#.#.#.#....#</span>
+<span style="color:#f92672">.</span><span style="color:#75715e">#........#.#........#.#........#.#........#.#........#.#........#</span>
+<span style="color:#75715e">#.##...#...#.##...#...#.##...#...#.##...#...#.##...#...#.##...#...</span>
+<span style="color:#75715e">#...##....##...##....##...##....##...##....##...##....##...##....#</span>
+<span style="color:#f92672">.</span><span style="color:#75715e">#..#...#.#.#..#...#.#.#..#...#.#.#..#...#.#.#..#...#.#.#..#...#.#  ---&gt;</span></code></pre></div>
+<blockquote>
+<p>You start on the open square (.) in the top-left corner and need to reach the
+bottom (below the bottom-most row on your map).</p>
+</blockquote>
+<blockquote>
+<p>The toboggan can only follow a few specific slopes (you opted for a cheaper
+model that prefers rational numbers); start by counting all the trees you
+would encounter for the slope right 3, down 1:</p>
+</blockquote>
+<blockquote>
+<p>From your starting position at the top-left, check the position that is right
+3 and down 1. Then, check the position that is right 3 and down 1 from there,
+and so on until you go past the bottom of the map.</p>
+</blockquote>
+<blockquote>
+<p>The locations you&rsquo;d check in the above example are marked here with O where
+there was an open square and X where there was a tree:</p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">..</span><span style="color:#75715e">##.........##.........##.........##.........##.........##.......  ---&gt;</span>
+<span style="color:#75715e">#..O#...#..#...#...#..#...#...#..#...#...#..#...#...#..#...#...#..</span>
+<span style="color:#f92672">.</span><span style="color:#75715e">#....X..#..#....#..#..#....#..#..#....#..#..#....#..#..#....#..#.</span>
+<span style="color:#f92672">..</span><span style="color:#75715e">#.#...#O#..#.#...#.#..#.#...#.#..#.#...#.#..#.#...#.#..#.#...#.#</span>
+<span style="color:#f92672">.</span><span style="color:#75715e">#...##..#..X...##..#..#...##..#..#...##..#..#...##..#..#...##..#.</span>
+<span style="color:#f92672">..</span><span style="color:#75715e">#.##.......#.X#.......#.##.......#.##.......#.##.......#.##.....  ---&gt;</span>
+<span style="color:#f92672">.</span><span style="color:#75715e">#.#.#....#.#.#.#.O..#.#.#.#....#.#.#.#....#.#.#.#....#.#.#.#....#</span>
+<span style="color:#f92672">.</span><span style="color:#75715e">#........#.#........X.#........#.#........#.#........#.#........#</span>
+<span style="color:#75715e">#.##...#...#.##...#...#.X#...#...#.##...#...#.##...#...#.##...#...</span>
+<span style="color:#75715e">#...##....##...##....##...#X....##...##....##...##....##...##....#</span>
+<span style="color:#f92672">.</span><span style="color:#75715e">#..#...#.#.#..#...#.#.#..#...X.#.#..#...#.#.#..#...#.#.#..#...#.#  ---&gt;</span></code></pre></div>
+<blockquote>
+<p>In this example, traversing the map using this slope would cause you to
+encounter 7 trees.</p>
+</blockquote>
+<blockquote>
+<p>Starting at the top-left corner of your map and following a slope of right 3
+and down 1, how many trees would you encounter?</p>
+</blockquote>
+<p>Tambien es el que mas largo tiene el enunciado!
+Así en resumen, siguiendo un mismo movimiento (3 derecha, 1 abajo), ¿Cuantos
+arboles nos encontramos bajando por este mapa?</p>
+<h1 id="primera-parte">Primera parte</h1>
+<p>Primero, tenemos que compensar el asunto de que el mapa se &ldquo;repita&rdquo; hacia la
+derecha, y movernos por el grid.</p>
+<p>Para ello, primero procesamos la entrada:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">grid <span style="color:#f92672">=</span> [[a <span style="color:#66d9ef">for</span> a <span style="color:#f92672">in</span> a <span style="color:#66d9ef">if</span> a <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>] <span style="color:#66d9ef">for</span> a <span style="color:#f92672">in</span> open(sys<span style="color:#f92672">.</span>argv[<span style="color:#ae81ff">1</span>])<span style="color:#f92672">.</span>readlines()]</code></pre></div>
+<p>Aqui hay una chorrada muy importante. No podemos tener en cuenta los saltos de
+linea, readlines() nos devuelve los mismos, y en la primera ejecución que hice
+me descuadró por eso.</p>
+<p>Ahora, necesitamos poder navegar por el grid, para ello, vamos a montar un
+generador que itere por todos las posiciones, haciendo los movimientos que necesitamos.</p>
+<p>Para ello vamos a usar el tercer parametro de range, que nos permite decidir el
+step, iterar por cada elemento de ese step.
+Con esto, vamos iterar por el grid por la posicion x, que es la fija, la que no
+se repite. Nos falta la posicion que se repite. La y, esta la sumaremos
+manualmente.</p>
+<p>Ahora, solo nos falta tener en cuenta la repeticion del grid. Para eso, vamos a
+operar sobre el grid inicial, y ajustar la posicion de y, para ajustar la
+posicion de y, dividiremos la posicion entre el total de anchura, quedandonos
+con el resto de la division, para eso utilizaremos el <a href="https://docs.python.org/3/reference/expressions.html">operador
+modulo</a>.</p>
+<blockquote>
+<p>The % (modulo) operator yields the remainder from the division of the first
+argument by the second. The numeric arguments are first converted to a common
+type. A zero right argument raises the ZeroDivisionError exception. The
+arguments may be floating point numbers, e.g., 3.14%0.7 equals 0.34 (since
+3.14 equals 4*0.7 + 0.34.) The modulo operator always yields a result with
+the same sign as its second operand (or zero); the absolute value of the
+result is strictly smaller than the absolute value of the second operand 1.</p>
+</blockquote>
+<p>Aqui he asumido que el total de anchura <em>no</em> es constante entre distintos
+puzzles, ni en el mismo, sin embargo es muy posible que lo sea, por lo que el
+len(grid[pos_x]) nos sobraría.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">traverse_grid</span>(grid, step_x, step_y, curr_pos<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>):
+    <span style="color:#66d9ef">for</span> pos_x <span style="color:#f92672">in</span> range(step_x, len(grid), step_x):
+        curr_pos <span style="color:#f92672">+=</span> step_y
+        <span style="color:#66d9ef">yield</span> grid[pos_x][curr_pos <span style="color:#f92672">%</span> len(grid[pos_x])] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;#&#39;</span></code></pre></div>
+<p>Finalmente, solo necesitamos ejecutar la funcion con cada uno de los
+movimientos (x, y), y, como dice el ejercicio, multiplicar todos entre ellos.</p>
+<blockquote>
+<p>Time to check the rest of the slopes - you need to minimize the probability
+of a sudden arboreal stop, after all.
+Determine the number of trees you would encounter if, for each of the
+following slopes, you start at the top-left corner and traverse the map all
+the way to the bottom:
+In the above example, these slopes would find 2, 7, 3, 4, and 2 tree(s)
+respectively; multiplied together, these produce the answer 336.</p>
+</blockquote>
+<p>Vamos, que tenemos que repetir lo mismo, con distintos valores de movimiento.
+Como nuestra funcion inicial ya permitia especificar los steps de los
+movimientos, simplemente tenemos que llamarla por cada slope.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">grid <span style="color:#f92672">=</span> [[a <span style="color:#66d9ef">for</span> a <span style="color:#f92672">in</span> a <span style="color:#66d9ef">if</span> a <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>] <span style="color:#66d9ef">for</span> a <span style="color:#f92672">in</span> open(sys<span style="color:#f92672">.</span>argv[<span style="color:#ae81ff">1</span>])<span style="color:#f92672">.</span>readlines()]
+slopes <span style="color:#f92672">=</span> ((<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>), (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>), (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">5</span>), (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">7</span>), (<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>))
+res <span style="color:#f92672">=</span> [Counter(traverse_grid(grid, <span style="color:#f92672">*</span>slope))[True] <span style="color:#66d9ef">for</span> slope <span style="color:#f92672">in</span> slopes]
+<span style="color:#66d9ef">print</span>(dict(zip(slopes, res)))
+<span style="color:#66d9ef">print</span>(reduce(mul, res))</code></pre></div>
+<p>Con esto completamos el tercer ejercicio del Advent Of Code!</p>
+
+        </div>
+        <div class="post-footer">
+            <div class="info">
+                
+                <span class="separator"><a class="tag" href="/tags/python/">python</a><a class="tag" href="/tags/adventofcode/">adventofcode</a></span>
+
+            </div>
+        </div>
+
+        
+            <div id="fb_comments_container">
+                    <h2>comentarios</h2>
+                    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "davidfrancos" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                </div>
+        
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript"
+        src="https://davidfrancos.net/js/jquery.min.86b1e8f819ee2d9099a783e50b49dff24282545fc40773861f9126b921532e4c.js"
+        integrity="sha256-hrHo&#43;BnuLZCZp4PlC0nf8kKCVF/EB3OGH5EmuSFTLkw="
+        crossorigin="anonymous"></script>
+
+
+
+
+<script type="text/javascript"
+        src="https://davidfrancos.net/js/bundle.min.0f9c74cb78f13d1f15f33daff4037c70354f98acfbb97a6f61708966675c3cae.js"
+        integrity="sha256-D5x0y3jxPR8V8z2v9AN8cDVPmKz7uXpvYXCJZmdcPK4="
+        crossorigin="anonymous"></script>
+
+<script type="text/javascript"
+        src="https://davidfrancos.net/js/medium-zoom.min.92f21c856129f84aeb719459b3e6ac621a3032fd7b180a18c04e1d12083f8aba.js"
+        integrity="sha256-kvIchWEp&#43;ErrcZRZs&#43;asYhowMv17GAoYwE4dEgg/iro="
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
